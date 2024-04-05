@@ -1,0 +1,128 @@
+--
+PCL/SQL 
+--
+--
+--
+
+Cree un nuevo usuario llamado practica3 con password practica3
+=> CREATE USER practica3 IDENTIFIED BY 7340458;
+
+Claro, aquí está la explicación del código SQL proporcionado:
+
+CREATE USER practica3: Esta es la parte principal de la sentencia. 
+Indica que queremos crear un nuevo usuario en la base de datos. "practica3" 
+es el nombre del usuario que estamos creando. Puedes sustituir "practica3" por cualquier otro nombre que desees para el usuario.
+
+IDENTIFIED BY practica3: Esta parte especifica la contraseña para el nuevo usuario. 
+En este caso, la contraseña es "practica3". El usuario necesitará esta contraseña para iniciar sesión en la base de datos. 
+Al igual que con el nombre de usuario, puedes cambiar "practica3" por la contraseña que prefieras.
+--
+--
+--
+
+
+-- 1
+-- Todos los vendedores, deben hacer todos los cursos
+-- de forma secencual (x vendedor)
+-- se cumple los curso y se contina
+-- criterio 1 -> PR todos inicias asi Programado
+-- criterio 2 -> AP Aprobado
+-- criterio 3 -> RP Reprobado
+-- despues continua con el resto de los vendedores
+-- los cursos son por cantidad de horas
+-- debe ser realizados en tres semanas de lunes a viernes
+-- de 40 horas y dos cursos por semana
+-- la fecha esta por definir segun asignacion
+
+Definir 2 variables BIND para ser usadas en la implementación del LOOP.
+
+
+CREATE TABLE VENDEDOR_CURSO 
+(
+  RUTVENDEDOR VARCHAR2(10), 
+  CODCURSO NUMBER(1),
+  CANT_HORAS NUMBER(2),
+  FECHA_DESDE DATE,
+  FECHA_HASTA DATE,
+  ESTADO_APROB VARCHAR2(2) DEFAULT 'PR'
+);
+
+? verificar
+VARIABLE fecha_desde DATE;
+VARIABLE fecha_hasta DATE;
+
+Estas dos líneas definen dos variables BIND llamadas fecha_desde y fecha_hasta con tipos de datos DATE. 
+Estas variables se pueden utilizar luego en tu consulta SQL dentro de un bloque PL/SQL para proporcionar 
+valores a los parámetros de la consulta dinámicamente.
+
+Por ejemplo, podrías usar estas variables BIND en un bloque PL/SQL de la siguiente manera:
+
+BEGIN
+  -- Código que establece los valores de las variables BIND
+  :fecha_desde := TO_DATE('2024-01-01', 'YYYY-MM-DD');
+  :fecha_hasta := TO_DATE('2024-12-31', 'YYYY-MM-DD');
+END;
+
+Este bloque PL/SQL establece los valores de las variables BIND fecha_desde y fecha_hasta. 
+Luego puedes utilizar estas variables en tu consulta SQL dentro del mismo bloque PL/SQL o en cualquier 
+otra consulta que ejecutes posteriormente.
+
+--
+--
+-- 
+-- 2
+--
+
+-- declaración crea una secuencia
+CREATE SEQUENCE SEQ_CLIENTE
+  START WITH 1
+  INCREMENT BY 1
+  NOCACHE
+  NOCYCLE;
+
+CREATE TABLE CLIENTE_GESTION
+(
+  ID_CLIENTE        NUMBER(6),
+  RUTCLIENTE        VARCHAR2(10),
+  NOMBRE            VARCHAR2(30),
+  DIRECCION         VARCHAR2(95),
+  CREDITO           NUMBER(8),
+  SALDO             NUMBER(8),
+  COMPORTAMIENTO_CLTE VARCHAR2(50),
+  CONSTRAINT PK_CLIENTE_GESTION PRIMARY KEY (ID_CLIENTE)
+);
+
+-- ? sin testiar
+CREATE OR REPLACE TRIGGER TRG_CLIENTE_GESTION
+BEFORE INSERT ON CLIENTE_GESTION
+FOR EACH ROW
+BEGIN
+  SELECT SEQ_CLIENTE.NEXTVAL INTO :NEW.ID_CLIENTE FROM DUAL;
+END;
+/
+
+-- triger para crear la condicional
+CREATE OR REPLACE TRIGGER trg_actualizar_clasificacion
+BEFORE INSERT OR UPDATE ON CLIENTE_GESTION
+FOR EACH ROW
+DECLARE
+    diferencia NUMBER(8);
+BEGIN
+    diferencia := :NEW.CREDITO - :NEW.SALDO;
+
+    IF diferencia <= 500000 THEN
+        :NEW.COMPORTAMIENTO_CLTE := 'Cliente realiza muchas compras';
+    ELSIF diferencia > 500000 AND diferencia <= 1000000 THEN
+        :NEW.COMPORTAMIENTO_CLTE := 'Cliente Medio, respecto a compras';
+    ELSE
+        :NEW.COMPORTAMIENTO_CLTE := 'Cliente no compra, candidato a campaña marketing';
+    END IF;
+END;
+/
+
+
+
+
+? crear insert en las tablas
+INSERT INTO 
+

@@ -1,0 +1,47 @@
+--> INFORMACION 
+
+
+DECLARE
+=> Variables  o seccion declarativa
+BEGIN
+=> ejecutar un bloque de codigo o instrucciones
+    -> Anonimos
+    -> Con nombre
+    -> Disparadores Triggers (se guardan en la DB)
+
+EXCEPTION
+=> controll de errores
+END
+=> termino del bloque o programa
+
+---> VARIABLES
+$variable
+variable
+
+=> set serveroutput on
+    habilita la salida de mensajes en el script
+
+
+
+    -- Definir variable BIND para el valor del IVA
+VARIABLE iva NUMBER;
+BEGIN
+    :iva := 0.19; -- IVA del 19%
+END;
+/
+
+-- Consulta para el reporte de gestión desde la tabla RESUMEN_VENTA_MES
+SELECT 
+    TO_CHAR(FECHA, 'MM/YYYY') AS MES_ANIO,
+    SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA * (1 - :iva) END) AS TOTAL_NETO,
+    CASE
+        WHEN SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) < 100000 THEN 'No se paga bono'
+        WHEN SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) >= 100000 AND SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) <= 200000 THEN SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) * 0.1
+        WHEN SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) >= 200000 AND SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) <= 300000 THEN SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) * 0.15
+        WHEN SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) >= 300000 AND SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) <= 400000 THEN SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) * 0.20
+        ELSE SUM(CASE WHEN DOCUMENTO IN ('BOLETA', 'FACTURA') THEN TOTAL_VENTA END) * 0.25
+    END AS BONO_META
+FROM 
+    RESUMEN_VENTA_MES
+GROUP BY 
+    TO_CHAR(FECHA, 'MM/YYYY');

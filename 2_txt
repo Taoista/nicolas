@@ -1,0 +1,52 @@
+-- 2
+-- crear tabla para tomar desiciones
+
+-- declaración crea una secuencia
+CREATE SEQUENCE SEQ_CLIENTE
+  START WITH 1
+  INCREMENT BY 1
+  NOCACHE
+  NOCYCLE;
+
+CREATE TABLE CLIENTE_GESTION
+(
+  ID_CLIENTE        NUMBER(6),
+  RUTCLIENTE        VARCHAR2(10),
+  NOMBRE            VARCHAR2(30),
+  DIRECCION         VARCHAR2(95),
+  CREDITO           NUMBER(8),
+  SALDO             NUMBER(8),
+  COMPORTAMIENTO_CLTE VARCHAR2(50),
+  CONSTRAINT PK_CLIENTE_GESTION PRIMARY KEY (ID_CLIENTE)
+);
+-- restriccion establece un nombre
+
+CREATE OR REPLACE TRIGGER TRG_CLIENTE_GESTION
+BEFORE INSERT ON CLIENTE_GESTION
+FOR EACH ROW
+BEGIN
+  SELECT SEQ_CLIENTE.NEXTVAL INTO :NEW.ID_CLIENTE FROM DUAL;
+END;
+/
+
+-- EXPLICACION
+CREATE OR REPLACE TRIGGER TRG_CLIENTE_GESTION: 
+Este comando crea un nuevo disparador llamado TRG_CLIENTE_GESTION. 
+La cláusula OR REPLACE indica que si ya existe un disparador con el mismo nombre, 
+será reemplazado por este nuevo.
+
+BEFORE INSERT ON CLIENTE_GESTION: Especifica que el disparador 
+se activará antes de que se inserte una fila en la tabla CLIENTE_GESTION.
+
+FOR EACH ROW: Indica que el disparador se ejecutará para cada 
+fila afectada por la operación de inserción.
+
+BEGIN: Inicia el bloque de código del disparador.
+
+SELECT SEQ_CLIENTE.NEXTVAL INTO :NEW.ID_CLIENTE FROM DUAL;: 
+Esta es la acción que realiza el disparador. Utiliza la secuencia SEQ_CLIENTE p
+ara generar el próximo valor de la secuencia y lo asigna a la columna ID_CLIENTE 
+de la fila que se está insertando. La parte :NEW.ID_CLIENTE se refiere al valor 
+de la columna ID_CLIENTE en la nueva fila que se está insertando. La función NEXTVAL 
+de la secuencia genera el siguiente valor de la secuencia. La tabla DUAL es una 
+tabla especial de Oracle que se utiliza para realizar operaciones de consulta simples.

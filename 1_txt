@@ -1,0 +1,43 @@
+=> CREATE USER practica3 IDENTIFIED BY 7340458;
+
+CREATE USER: Es una instrucción que se utiliza para crear un nuevo 
+                usuario en la base de datos.
+
+practica3: Es el nombre del usuario que se está creando. 
+            En este caso, el usuario se llama "practica3".
+
+IDENTIFIED BY: Es una cláusula que se utiliza para establecer 
+                la contraseña del usuario. Después de "IDENTIFIED BY" viene la contraseña en sí.
+
+7340458: Esta es la contraseña asignada al usuario "practica3". 
+        Es una secuencia de caracteres numéricos en este caso.
+
+
+-- 1
+-- Todos los vendedores, deben hacer todos los cursos
+-- de forma secencual (x vendedor)
+-- se cumple los curso y se contina
+-- criterio 1 -> PR todos inicias asi Programado
+-- criterio 2 -> AP Aprobado
+-- criterio 3 -> RP Reprobado
+-- despues continua con el resto de los vendedores
+-- los cursos son por cantidad de horas
+-- debe ser realizados en tres semanas de lunes a viernes
+-- de 40 horas y dos cursos por semana
+-- la fecha esta por definir segun asignacion
+-- ? tengo que ver esto
+
+CREATE TABLE VENDEDOR_CURSO 
+(
+  RUTVENDEDOR VARCHAR2(10), 
+  CODCURSO NUMBER(1),
+  CANT_HORAS NUMBER(2),
+  FECHA_DESDE DATE,
+  FECHA_HASTA DATE,
+  ESTADO_APROB VARCHAR2(2) DEFAULT 'PR'
+);
+
+-- Definir 2 variables BIND para ser usadas en la implementación del LOOP.
+
+VARIABLE fecha_desde DATE;
+VARIABLE fecha_hasta DATE;

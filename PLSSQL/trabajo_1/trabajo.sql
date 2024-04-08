@@ -1,25 +1,5 @@
-INSTRUCCIONES GENERALES:
-• Desarrolle la solución al caso planteado usando la herramienta Oracle SQLDeveloper. 
-• Puede hacer usos de las presentaciones de la asignatura y/o apuntes personales como material de consulta durante el 
-desarrollo de la prueba.
-• Los casos están planteados sobre el Modelo que se adjunta como Anexo “A”. Por esta razón, para construir las 
-soluciones de los requerimientos de información planteados en cada caso, deberá ejecutar el scripts 
-scrpts_crea_tablas_bd_GNB_FORMA_A (entregado por el docente) que creará y poblará las tablas del Modelo 
-entregado.
-• Los resultados deben ser redondeados a valores enteros
-
-
----- REGLAS DE NEGOCIO
--> Todo calculo en UF pero se paga en Peso
--> por cada credito se genera cuotas a pagar
--> cada credito tiene cantidad de cuotas, el monto de creidto, fecha inicio y la tasa de interes
-=> Ver tabka CREDITO
-=> SELECT * FROM CTEDITO;
-
-1.2.- REQUERIMIENTOS MÍNIMOS, EN TÉRMINOS DE DISEÑO, PARA CONSTRUIR EL PROCESO
-SE INSERTA
 DECLARE
-    v_valor_uf NUMBER; - 
+    v_valor_uf NUMBER; 
     v_monto_total NUMBER;
     v_cantidad_cuotas NUMBER;
     v_fecha_inicio DATE;
@@ -39,7 +19,8 @@ BEGIN
         -- Calcular el monto de cada cuota
         v_monto_cuota := ROUND((v_monto_total * v_tasa_interes) / v_cantidad_cuotas);
 
-        -- Calcular la fecha de vencimiento de cada cuota mensualmente a partir de la fecha de inicio del crédito
+        -- Calcular la fecha de vencimiento de cada cuota mensualmente a 
+        -- partir de la fecha de inicio del crédito
         FOR i IN 1..v_cantidad_cuotas LOOP
             v_fecha_vencimiento := ADD_MONTHS(v_fecha_inicio, i);
             -- Insertar los valores calculados en la tabla PAGO_CREDITO

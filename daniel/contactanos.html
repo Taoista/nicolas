@@ -1,25 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario</title>
+    <title>Document</title>
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
 </head>
 <body>
-    <center>
-    <div>
-        <h1>Suscribete!</h1>
-        <form action="Demo_Web.html" method="post">
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre "/>
-            <br><br>
-            <input type="text" id="apellido" name="apellido" placeholder="Apellido "/>
-            <br><br>
-            <input type="text" id="correo" name="correo" placeholder="Correo "/>
-            <br><br>
-            <input type="submit" value="Enviar" id="btnEnviar" onclick="alerta()"/>
-            <br><br>
-            <a href="index.html">Volver </a>
-        </form>
-</div>
+    
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6 col-xs-12 d-flex align-items-center justify-content-center">
+                <img src="assets/img/logo.png" alt="">
+            </div>
+            <div class="col-md-6 col-xs-12 d-flex align-items-center justify-content-center">
+                <h1>Presentación</h1>
+            </div>
+        </div>
+        <!-- ? navigation -->
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="nav d-flex align-items-center justify-content-center">
+                    <a class="nav-link" href="index.html">Inicio</a> 
+                    <a class="nav-link" href="galeria.html">Imagenes</a> 
+                    <a class="nav-link" href="cuando_era_chico.html">Cuando Era chico</a> 
+                    <a class="nav-link" href="contactanos.html">Contactanos</a> 
+                    <a class="nav-link" href="suscribe.html">Suscribete</a>
+                    <a class="nav-link" href="about.html">Sobre Nosotros</a>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <h2 class="d-flex align-items-center justify-content-center">Contactanos</h2>
+            </div>
+            <div class="col-md-12">
+                <div class="container text-center">
+                    <div class="row">
+                       <div class="col-md-12">
+                           <form>
+                               <div class="mb-3">
+                               <label for="exampleInputEmail1" class="form-label">Nombre</label>
+                               <input type="text" class="form-control inp-nombre" id="exampleInputEmail1" aria-describedby="NombrelHelp">
+                               </div>
+                               <div class="mb-3">
+                               <label for="exampleInputPassword1" class="form-label">Email</label>
+                               <input type="text" class="form-control inp-email" id="exampleInputEmail1" aria-roledescription="emailHelp">
+                               </div>
+                               <div class="mb-3">
+                                   <label for="exampleInputPassword1" class="form-label">Telefono</label>
+                                   <input type="text" class="form-control inp-telefono" id="exampleInputEmail1" aria-roledescription="telefonoHelp">
+                               </div>
+                              <button class="btn btn-primary btn-enviar">Guardar</button>
+                              <button class="btn btn-danger btn-limpiar">Limpiar</button>
+                           </form>
+                        </div>
+                    </div>
+               </div>
+            </div>
+        </div>
+
+    </div>
+
+
 </body>
+
+<script src="assets/js/bootstrap.min.js"></script>
+<script>
+
+    const btn_send = document.querySelector('.btn-enviar')
+    const clean_button = document.querySelector('.btn-limpiar')
+
+
+    let nombre = document.querySelector('.inp-nombre')
+    let email = document.querySelector('.inp-email')
+    let telefono = document.querySelector('.inp-telefono')
+    
+
+    btn_send.addEventListener('click', (e) => {
+        e.preventDefault()
+       
+        if(nombre.value == ""){
+            alert("debes de llenar el nombre, desaweonizate!")
+            return false
+        }
+
+
+        console.log(nombre.value)
+        console.log(email.value)
+        console.log(telefono.value)
+    })
+
+    clean_button.addEventListener('click', (e) => {
+        e.preventDefault()
+        nombre.value = ""
+        email.value = ""
+        telefono.value = ""
+    })
+
+
+
+
+</script>
 </html>

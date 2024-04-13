@@ -87,7 +87,8 @@ BEGIN
         
         -- Calcular monto de pesos acumulados por cliente
         IF v_tipo_cliente = 'EMPRESA' THEN
-            v_monto_pesos := v_cantidad_cuotas * v_valor_peso_empresa;
+            -- v_monto_pesos := v_cantidad_cuotas * v_valor_peso_empresa;
+            v_monto_total := v_monto_credito * POWER((1 + v_tasa_interes), v_cantidad_cuotas);
         ELSE
             v_monto_pesos := (v_monto_credito / 100000) * v_valor_peso_empresa;
         END IF;
